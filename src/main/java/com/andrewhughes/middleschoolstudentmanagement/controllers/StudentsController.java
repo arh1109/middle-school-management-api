@@ -1,5 +1,6 @@
 package com.andrewhughes.middleschoolstudentmanagement.controllers;
 
+import com.andrewhughes.middleschoolstudentmanagement.dtos.StudentDTO;
 import com.andrewhughes.middleschoolstudentmanagement.entities.StudentEntity;
 import com.andrewhughes.middleschoolstudentmanagement.services.StudentService;
 import org.slf4j.Logger;
@@ -40,8 +41,8 @@ public class StudentsController {
     }
 
     @PutMapping
-    public ResponseEntity<StudentEntity> updateStudentById(@RequestBody StudentEntity student) {
-        return ResponseEntity.ok(studentService.updateStudentById(student));
+    public ResponseEntity<StudentEntity> updateStudentById(@RequestBody StudentDTO student) {
+        return ResponseEntity.ok(studentService.updateStudentByDTO(student));
     }
 
     @DeleteMapping("/{id}")

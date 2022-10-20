@@ -10,11 +10,11 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDTO {
-
-    private String first_name;
-    private String last_name;
+    private long studentId;
+    private String firstName;
+    private String lastName;
     private String address;
-    private Date date_of_birth;
+    private Date dateOfBirth;
 
 
 }

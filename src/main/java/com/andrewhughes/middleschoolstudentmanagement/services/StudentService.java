@@ -1,5 +1,6 @@
 package com.andrewhughes.middleschoolstudentmanagement.services;
 
+import com.andrewhughes.middleschoolstudentmanagement.dtos.StudentDTO;
 import com.andrewhughes.middleschoolstudentmanagement.entities.StudentEntity;
 import com.andrewhughes.middleschoolstudentmanagement.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,14 @@ public class StudentService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public StudentEntity updateStudentById(StudentEntity student) {
+    public StudentEntity updateStudentByDTO(StudentDTO student) {
         if(studentRepository.findById(student.getStudentId()).isPresent()) {
-            return studentRepository.save(student);
+            StudentEntity studentEntity = studentRepository.findById(student.getStudentId()).get();
+            studentEntity.setAddress(student.getAddress());
+            studentEntity.setFirstName(student.getFirstName());
+            studentEntity.setLastName(student.getLastName());
+            studentEntity.setDateOfBirth(student.getDateOfBirth());
+            return studentRepository.save(studentEntity);
         }
         return null;
 

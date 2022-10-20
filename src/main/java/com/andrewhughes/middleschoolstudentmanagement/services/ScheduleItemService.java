@@ -9,12 +9,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ScheduleItemService {
 
     @Autowired
     private ScheduleItemRepository scheduleItemRepository;
+
+    @Autowired
+    private StudentService studentService;
 
     public List<ScheduleItemEntity> getAllScheduleItems() {
 
@@ -45,11 +49,24 @@ public class ScheduleItemService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ScheduleItemEntity updateScheduleItemById(ScheduleItemEntity scheduleItemEntity) {
-        if(scheduleItemRepository.findById(scheduleItemEntity.getId()).isPresent()) {
+        if(scheduleItemRepository.findById(scheduleItemEntity.getScheduleItemId()).isPresent()) {
             return scheduleItemRepository.save(scheduleItemEntity);
         }
         return null;
 
     }
 
+    public ScheduleItemEntity addStudentToScheduleItemByScheduleItemID(long studentID, long id) throws Exception {
+        ScheduleItemEntity scheduleItem = getScheduleItemById(id);
+        scheduleItem.addStudent(studentService.getStudentById(studentID));
+        scheduleItemRepository.save(scheduleItem);
+        return scheduleItem;
+    }
+
+    public ScheduleItemEntity removeStudentToScheduleItemByScheduleItemID(long studentID, long id) throws Exception {
+        ScheduleItemEntity scheduleItem = getScheduleItemById(id);
+        scheduleItem.removeStudent(studentService.getStudentById(studentID));
+        scheduleItemRepository.save(scheduleItem);
+        return scheduleItem;
+    }
 }
